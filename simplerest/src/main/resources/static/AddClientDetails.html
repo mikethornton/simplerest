@@ -1,0 +1,8 @@
+<form class="form-horizontal" ng-submit="submit()">
+	<div class="form-group">
+		<label>First Name: <input type="text" ng-model="newClient.firstName"/></label>
+		<label>Last Name: <input type="text" ng-model="newClient.lastName"/></label>
+		<input type="submit" id="submit" value="Add Client" /><br/>
+		<strong>Client ID:</strong> {{newClient.id}}<br/>
+	</div>
+</form>
