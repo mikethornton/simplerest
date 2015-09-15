@@ -20,6 +20,9 @@ import com.comptonsoftwaresolutions.crm.model.Client;
 import com.comptonsoftwaresolutions.crm.service.ClientRepository;
 
 /**
+ * RestController implementation for clients showing use of spring mvc annotations to 
+ * create a RESTful interface.
+ * 
  * @author dell
  *
  */
@@ -35,6 +38,13 @@ public class ClientController {
 		this.clientRepository = clientRepository;
 	}
 
+	/**
+	 * Gets client by unique id.
+	 * 
+	 * @param clientId Long
+	 * 
+	 * @return Client corresponding to id.
+	 */
 	@RequestMapping(value = "{clientId}", method = RequestMethod.GET)
 	public Client getClient(@PathVariable Long clientId) {
 		LOG.debug("Selecting client with id [" + clientId + "]");
@@ -45,6 +55,13 @@ public class ClientController {
 		return client;
 	}
 
+	/**
+	 * Add a new client.
+	 * 
+	 * @param client Client
+	 * 
+	 * @return new clients id
+	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public long addClient(@Valid @RequestBody Client client) {
 		LOG.debug("Adding client with firstName [" + client.getFirstName() + "], lastName [" + client.getLastName() + "]");
@@ -52,12 +69,15 @@ public class ClientController {
 		return client.getId();
 	}
 
+	/**
+	 * Get all clients
+	 * 
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public Iterable<Client> getClients() {
 		LOG.debug("Getting all clients");
-		Iterable<Client> clients = clientRepository.findAll();
-
-		return clients;
+		return clientRepository.findAll();
 	}
 
 	@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="user not found")
