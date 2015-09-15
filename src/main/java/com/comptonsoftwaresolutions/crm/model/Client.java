@@ -6,9 +6,11 @@ package com.comptonsoftwaresolutions.crm.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * @author dell
@@ -40,6 +42,7 @@ public class Client {
 	/**
 	 * @return
 	 */
+	@NotNull
 	public String getFirstName() {
 		return firstName;
 	}
@@ -54,6 +57,7 @@ public class Client {
 	/**
 	 * @return
 	 */
+	@NotNull
 	public String getLastName() {
 		return lastName;
 	}
@@ -82,5 +86,9 @@ public class Client {
 		Client rhs = (Client) obj;
 		return new EqualsBuilder().append(this.firstName, rhs.firstName).append(this.lastName, rhs.lastName).isEquals();
 	}
-
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

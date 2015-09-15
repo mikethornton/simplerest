@@ -19,7 +19,7 @@ angular.module('crm', ['ngRoute'])
   })
 .controller('addClient', function($scope, $http) {
 	$scope.submit = function(){
-		$http.post('clients/' ,{}, {params:{firstName:$scope.newClient.firstName, lastName:$scope.newClient.lastName}}).success(function(data) {
+		$http.post('clients/' ,{firstName:$scope.newClient.firstName, lastName:$scope.newClient.lastName}).success(function(data) {
 			$scope.newClient.id = data;
 		})
 	}

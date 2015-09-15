@@ -48,6 +48,7 @@ public class ClientControllerImplementationTest {
 	@Autowired
 	private ClientRepository repository;
 	private Client client1;
+	private Client client2;
 	private RestTemplate template = new RestTemplate();
 	@Value("${local.server.port}")
 	int port;
@@ -61,6 +62,10 @@ public class ClientControllerImplementationTest {
 		client1.setFirstName(FIRST_NAME);
 		client1.setLastName(LAST_NAME);
 		repository.save(client1);
+		
+		client2 = new Client();
+		client2.setFirstName(FIRST_NAME_2);
+		client2.setLastName(LAST_NAME_2);
 	}
 
 	/**
@@ -104,7 +109,7 @@ public class ClientControllerImplementationTest {
 	@Test
 	public void testAddClient() {
 		Long id = template.postForObject(
-				"http://localhost:" + port + "/clients?firstName=" + FIRST_NAME_2 + "&lastName=" + LAST_NAME_2, null,
+				"http://localhost:" + port + "/clients", client2,
 				Long.class);
 
 		Client newClient = repository.findOne(id);
@@ -121,7 +126,8 @@ public class ClientControllerImplementationTest {
 	@Test(expected = HttpClientErrorException.class)
 	public void testAddClientNoFirstName() {
 		try {
-			template.postForObject("http://localhost:" + port + "/clients?lastName=" + LAST_NAME_2, null, Long.class);
+			client2.setFirstName(null);
+			template.postForObject("http://localhost:" + port + "/clients", client2, Long.class);
 		} catch (HttpClientErrorException e) {
 			assertEquals("Wrong error code", HttpStatus.BAD_REQUEST, e.getStatusCode());
 			throw e;
@@ -136,7 +142,8 @@ public class ClientControllerImplementationTest {
 	@Test(expected = HttpClientErrorException.class)
 	public void testAddClientNoLastName() {
 		try {
-			template.postForObject("http://localhost:" + port + "/clients?firstName=" + FIRST_NAME_2, null,
+			client2.setLastName(null);
+			template.postForObject("http://localhost:" + port + "/clients", client2,
 					Long.class);
 		} catch (HttpClientErrorException e) {
 			assertEquals("Wrong error code", HttpStatus.BAD_REQUEST, e.getStatusCode());

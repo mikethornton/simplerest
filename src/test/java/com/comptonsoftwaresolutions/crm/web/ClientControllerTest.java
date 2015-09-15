@@ -57,7 +57,11 @@ public class ClientControllerTest {
 	public void testAddClient() {
 		ArgumentCaptor<Client> argCaptor = ArgumentCaptor.forClass(Client.class);
 
-		controller.addClient(FIRST_NAME, LAST_NAME);
+		Client client = new Client();
+		client.setFirstName(FIRST_NAME);
+		client.setLastName(LAST_NAME);
+		
+		controller.addClient(client);
 
 		verify(repository).save(argCaptor.capture());
 		assertEquals("Should have set first name", FIRST_NAME, argCaptor.getValue().getFirstName());
